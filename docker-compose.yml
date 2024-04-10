@@ -1,0 +1,16 @@
+version: '3'
+services:
+  react-app:
+    image: zain123256/devops-2:01
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      FIREBASE_API_KEY: "AIzaSyB7KZhT4_QG-uSlrzRgFF9va-JXzVLQGGs"
+      FIREBASE_AUTH_DOMAIN: "ecommerce-6b84d.firebaseapp.com"
+      FIREBASE_DATABASE_URL: "https://ecommerce-6b84d-default-rtdb.firebaseio.com"
+      FIREBASE_PROJECT_ID: "ecommerce-6b84d"
+      FIREBASE_STORAGE_BUCKET: "ecommerce-6b84d.appspot.com"
+      FIREBASE_MESSAGING_SENDER_ID: "971460776240"
+      FIREBASE_APP_ID: "1:971460776240:web:cb3fc3fab0e100ce1c78f5"
