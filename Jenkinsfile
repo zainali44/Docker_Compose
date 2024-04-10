@@ -3,9 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'sudo docker compose build'
-                sh 'sudo docker compose up -d'
-                sh 'sudo docker compose push'
+                sh 'sudo docker run --rm -p 3000:3000 zain123256/devops-2:01'
             }
         }
     }
