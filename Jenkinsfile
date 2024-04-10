@@ -1,45 +1,30 @@
 pipeline {
     agent any
 
-    tools {
-        // Assuming Jenkins has Docker installed and configured
-        docker 'default'
-    }
-
     environment {
-        // Define your Docker image name here
-        IMAGE_NAME = 'zain123256/devops-2:01'
-        // Define any other environment variables you might need
+        IMAGE_NAME = 'zain123256/devops-2:01' // Your Docker image name and tag
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Clone your repository
-                git 'https://github.com/zainali44/Docker_Compose.git'
+                git 'https://github.com/zainali44/Docker_Compose.git' // Your Git repository URL
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Image') {
             steps {
                 script {
-                    // Assuming you have a Dockerfile in the root of your project
-                    // This will build your Docker image and tag it
-                    docker.build("${IMAGE_NAME}")
+                    sh 'docker build -t ${IMAGE_NAME} .' // Builds Docker image from Dockerfile in current directory
                 }
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Run Container') {
             steps {
                 script {
-                    // Stop any previously running containers (optional cleanup step)
-                    sh "docker stop $(docker ps -aq) || true"
-                    sh "docker rm $(docker ps -aq) || true"
-                    
-                    // Run your Docker container
-                    // Adjust port mappings as per your application's requirements
-                    sh "docker run -d -p 3000:3000 ${IMAGE_NAME}"
+                    sh 'docker stop \$(docker ps -q --filter ancestor=${IMAGE_NAME}) || true' // Stop any running containers of this image
+                    sh 'docker run -d -p 3000:3000 ${IMAGE_NAME}' // Runs the Docker container
                 }
             }
         }
@@ -47,11 +32,11 @@ pipeline {
 
     post {
         success {
-            echo 'Build and Deployment Successful!'
+            echo 'Deployment succeeded.'
         }
 
         failure {
-            echo 'Build or Deployment Failed.'
+            echo 'Deployment failed.'
         }
     }
 }
